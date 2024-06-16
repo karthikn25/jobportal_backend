@@ -81,7 +81,25 @@ router.get("/data", async (req, res) => {
   }
 });
 
-
+router.get("/search/:keyword",async(req,res)=>{
+  try {
+    const {keyword} = req.params;   
+    const notes = await Notes.find({
+      $or:[
+        {companyName:{$regex:keyword, $options:"i"}},
+        {position:{$regex:keyword, $options:"i"}},
+        {location:{$regex:keyword, $options:"i"}}
+      ]
+    }).populate("user","name email avatar")
+    if(!notes){
+      res.status(400).json({message:"Data not Found"})
+    }
+    res.status(200).json({message:"Data Found Successfully",length:notes.length,notes})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+})
 
 router.post("/create", async (req, res) => {
   const postedDate = new Date().toJSON().slice(0, 10);
