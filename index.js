@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
