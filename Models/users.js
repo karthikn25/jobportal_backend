@@ -4,13 +4,11 @@ const jwt = require('jsonwebtoken');
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     email: {
         type: String,
         required: true,
-        trim: true,
         unique: true
     },
     avatar: {
@@ -18,9 +16,8 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        trim: true,
-        minLength: 5
+        required: true
+        
     },
     position: {
         type: String
@@ -37,12 +34,12 @@ const userSchema = new mongoose.Schema({
     otpExpires: {
         type: Date,  // Expiration time for OTP
     }
-});
+},{timestamps:true});
 
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.secretKey); // Generate JWT using the secret key from environment
+    return jwt.sign({ id }, process.env.JWT_SECRET); // Generate JWT using the secret key from environment
 }
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = { User, generateToken };

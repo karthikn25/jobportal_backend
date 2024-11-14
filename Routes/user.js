@@ -225,7 +225,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const multer = require('multer');
-const generateToken = require('../Models/users')
+const {generateToken} = require('../Models/users')
 const { User } = require('../Models/users');
 const cloudinary = require('cloudinary').v2;
 
@@ -342,7 +342,7 @@ router.post('/verify-otp', async (req, res) => {
 
         await user.save();
 
-        const token = jwt.sign({ id: user._id }, process.env.secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         delete tempOtpStore[email]; // Remove OTP after verification
 
