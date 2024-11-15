@@ -12,7 +12,7 @@ const connectDataBase = async()=>{
         useNewUrlParser:true
     }
     try {
-        mongoose.connect(process.env.Mongo_Url,params)
+        mongoose.connect(process.env.MONGO_URL,params)
         console.log("MongoDb connected Successfully")
         
     } catch (error) {
