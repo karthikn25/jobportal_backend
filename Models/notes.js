@@ -12,7 +12,7 @@ const notesSchema = new mongoose.Schema({
   questions: [{ type: String, required: true }],
   date: { type: String, required: true },
   user: { type: ObjectId, ref: "user" },
-});
+},{timestamps:true});
 
 const Notes = mongoose.model("notes", notesSchema);
 
