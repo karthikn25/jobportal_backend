@@ -43,7 +43,6 @@ const cors = require('cors');
 const { connectDataBase } = require('./db.js');
 const { notesRouter } = require('./Routes/notes.js');
 const { userRouter } = require('./Routes/user.js');
-const { isAuth } = require('./Controller/auth.js');
 const path = require('path');
 const bodyParser = require('body-parser');
 

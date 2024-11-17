@@ -159,7 +159,6 @@
 // module.exports = { notesRouter };
 const express = require('express');
 const { Notes } = require('../Models/notes.js');
-const { isAuth } = require('../Controller/auth');  // Importing the auth middleware
 
 const router = express.Router();
 
