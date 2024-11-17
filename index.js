@@ -65,7 +65,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use("/user", userRouter);
-app.use("/notes", isAuth, notesRouter);  // Protect the notes routes with the isAuth middleware
+app.use("/notes", notesRouter);  // Protect the notes routes with the isAuth middleware
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on localhost:${PORT}`));
