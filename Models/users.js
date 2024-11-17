@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-        
     },
     position: {
         type: String
@@ -29,22 +28,18 @@ const userSchema = new mongoose.Schema({
         type: String
     },
     otp: {
-        type: String,  // OTP code field
+        type: String,
     },
     otpExpires: {
-        type: Date,  // Expiration time for OTP
+        type: Date,
     }
-},{timestamps:true});
+}, {timestamps: true});
+
+// Check if the model is already defined
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET); // Generate JWT using the secret key from environment
+    return jwt.sign({ id }, process.env.JWT_SECRET); // JWT generation
 }
-
-const User = mongoose.model("User", userSchema);
-
-
-
-
-
 
 module.exports = { User, generateToken };
