@@ -11,7 +11,7 @@ const notesSchema = new mongoose.Schema({
   expLevel: { type: String, required: true },
   questions: [{ type: String, required: true }],
   date: { type: String, required: true },
-  user: { type: ObjectId, ref: "user" },
+  user: { type: ObjectId, ref: "User" },
 },{timestamps:true});
 
 const Notes = mongoose.model("notes", notesSchema);
