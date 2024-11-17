@@ -122,7 +122,6 @@
 // module.exports = { notesRouter };
 const express = require('express');
 const { Notes } = require('../Models/notes.js');
-const { isAuth } = require('../Controller/auth');  // Importing the auth middleware
 
 const router = express.Router();
 
@@ -141,7 +140,7 @@ router.get("/all", async (req, res) => {
 });
 
 // Get notes excluding the current user's notes (authenticated route)
-router.get("/getall/:id", isAuth, async (req, res) => {
+router.get("/getall/:id", async (req, res) => {
   try {
     const notes = await Notes.find({}).where({ user: { $ne: req.params.id } }).populate("user", "name email avatar");
     if (!notes) {
@@ -155,7 +154,7 @@ router.get("/getall/:id", isAuth, async (req, res) => {
 });
 
 // Get single note by ID
-router.get("/getsingle/:id",isAuth, async (req, res) => {
+router.get("/getsingle/:id", async (req, res) => {
   try {
     const notes = await Notes.findOne({ _id: req.params.id }).populate("user", "email name avatar");
     if (!notes) {
@@ -169,7 +168,7 @@ router.get("/getsingle/:id",isAuth, async (req, res) => {
 });
 
 // Create a new note (requires authentication)
-router.post("/create", isAuth, async (req, res) => {
+router.post("/create", async (req, res) => {
   const postedDate = new Date().toJSON().slice(0, 10);
 
   try {
@@ -229,7 +228,7 @@ router.get("/data", async (req, res) => {
 
 
 // Update note by ID (requires authentication)
-router.put("/edit/:id", isAuth, async (req, res) => {
+router.put("/edit/:id", async (req, res) => {
   try {
     const updatedNotes = await Notes.findOneAndUpdate(
       { _id: req.params.id },
@@ -247,7 +246,7 @@ router.put("/edit/:id", isAuth, async (req, res) => {
 });
 
 // Delete note by ID (requires authentication)
-router.delete("/remove/:id", isAuth, async (req, res) => {
+router.delete("/remove/:id", async (req, res) => {
   try {
     const removeNotes = await Notes.findByIdAndDelete({ _id: req.params.id });
     if (!removeNotes) {
