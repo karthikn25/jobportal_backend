@@ -150,28 +150,9 @@ router.get("/getsingle/:id", async (req, res) => {
   }
 });
 
-// Create a new note (requires authentication)
-// router.post("/create", async (req, res) => {
-//   const postedDate = new Date().toJSON().slice(0, 10);
 
-//   try {
-//     const newNote = new Notes({
-//       ...req.body,
-//       date: postedDate,
-//       user: req.user._id  // Attach the authenticated user's ID to the note
-//     });
 
-//     await newNote.save();
-//     await newNote.populate('user', 'name email _id');  // Populate user info (optional)
-
-//     res.status(201).json({ message: 'Note created successfully', newNote });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(400).json({ message: 'Error creating note', error });
-//   }
-// });
-
-router.post("/create", async (req, res) => {
+router.post("/create/:id", async (req, res) => {
   const postedDate = new Date().toJSON().slice(0, 10);
 
   try {
@@ -210,26 +191,49 @@ router.get("/search/:keyword",async(req,res)=>{
   }
 })
 
-router.get("/data", async (req, res) => {
+// router.get("/data/:id", async (req, res) => {
+//   try {
+//     const notes = await Notes.find({ user: req.params.id}).populate(
+//       "user",
+//       "name email avatar"
+//     );
+//     if (!notes) {
+//       return res.status(400).json({ message: "Couldn't fond any data" });
+//     }
+//     res
+//       .status(200)
+//       .json({ message: "Successfully found your data", length: notes.length,notes });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
+
+
+// Update note by ID (requires authentication)
+
+router.get("/data/:id", async (req, res) => {
   try {
-    const notes = await Notes.find({ user: req.user._id }).populate(
-      "user",
-      "name email avatar"
-    );
-    if (!notes) {
-      return res.status(400).json({ message: "Couldn't fond any data" });
+    // Find all notes by the user ID passed in the request parameters
+    const notes = await Notes.find({ user: req.params.id }).populate("user", "name email avatar");
+
+    // Check if the user has any notes
+    if (!notes || notes.length === 0) {
+      return res.status(404).json({ message: "No notes found for this user" });
     }
-    res
-      .status(200)
-      .json({ message: "Successfully found your data", length: notes.length,notes });
+
+    // Respond with the notes and their count
+    res.status(200).json({
+      message: "Successfully found user's notes",
+      length: notes.length, // Number of notes uploaded by the user
+      notes, // Return the actual notes
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-
-// Update note by ID (requires authentication)
 router.put("/edit/:id", async (req, res) => {
   try {
     const updatedNotes = await Notes.findOneAndUpdate(
