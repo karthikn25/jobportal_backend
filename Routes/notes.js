@@ -125,16 +125,23 @@ router.get("/all", async (req, res) => {
 // Get notes excluding the current user's notes (authenticated route)
 router.get("/getall/:id", async (req, res) => {
   try {
-    const notes = await Notes.find({}).where({ user: { $ne: req.params.id } }).populate("user", "name email avatar");
-    if (!notes) {
-      return res.status(400).json({ message: "Couldn't find any data" });
+    // Query to fetch notes where the user is not the one specified in the params
+    const notes = await Notes.find({ user: { $ne: req.params.id } })
+      .populate("user", "name email avatar");
+
+    // Check if no notes were found
+    if (notes.length === 0) {
+      return res.status(404).json({ message: "No notes found for other users" });
     }
-    res.status(200).json({ message: "Successfully found your data", notes });
+
+    // Return successfully found notes
+    res.status(200).json({ message: "Successfully found notes", notes });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 
 // Get single note by ID
 router.get("/getsingle/:id", async (req, res) => {
