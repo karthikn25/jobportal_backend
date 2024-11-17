@@ -160,7 +160,7 @@ router.post("/create/:id", async (req, res) => {
     const notes = new Notes({
       ...req.body,
       date: postedDate,
-      user: req.user
+      user: req.params.id
       
     });
     await notes.save();
