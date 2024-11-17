@@ -35,7 +35,7 @@ const isAuth = async (req, res, next) => {
       token = req.headers["x-auth-token"];
 
       // Verify the token using the secret key
-      const decoded = jwt.verify(token, process.env.secretKey);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // Attach the user data to the request object
       req.user = await User.findById(decoded.id).select("name email _id")
