@@ -254,7 +254,7 @@ router.delete("/remove/:id", isAuth, async (req, res) => {
     res.status(200).json({ message: "Data Remove Successfully" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" })
   }
 });
 
