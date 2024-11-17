@@ -178,7 +178,7 @@ router.get("/all", async (req, res) => {
 });
 
 // Get notes excluding the current user's notes (authenticated route)
-router.get("/getall/:id", isAuth, async (req, res) => {
+router.get("/getall/:id", async (req, res) => {
   try {
     const notes = await Notes.find({}).where({ user: { $ne: req.params.id } }).populate("user", "name email avatar");
     if (!notes) {
@@ -206,7 +206,7 @@ router.get("/getsingle/:id", async (req, res) => {
 });
 
 // Create a new note (requires authentication)
-router.post("/create", isAuth, async (req, res) => {
+router.post("/create", async (req, res) => {
   const postedDate = new Date().toJSON().slice(0, 10);
 
   try {
@@ -227,7 +227,7 @@ router.post("/create", isAuth, async (req, res) => {
 });
 
 // Update note by ID (requires authentication)
-router.put("/edit/:id", isAuth, async (req, res) => {
+router.put("/edit/:id", async (req, res) => {
   try {
     const updatedNotes = await Notes.findOneAndUpdate(
       { _id: req.params.id },
@@ -245,7 +245,7 @@ router.put("/edit/:id", isAuth, async (req, res) => {
 });
 
 // Delete note by ID (requires authentication)
-router.delete("/remove/:id", isAuth, async (req, res) => {
+router.delete("/remove/:id", async (req, res) => {
   try {
     const removeNotes = await Notes.findByIdAndDelete({ _id: req.params.id });
     if (!removeNotes) {
