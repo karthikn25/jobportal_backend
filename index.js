@@ -37,6 +37,39 @@
 
 // app.listen(PORT,()=>console.log(`server running under localhost:${PORT}`))
 
+// const express = require('express');
+// const dotenv = require('dotenv');
+// const cors = require('cors');
+// const { connectDataBase } = require('./db.js');
+// const { notesRouter } = require('./Routes/notes.js');
+// const { userRouter } = require('./Routes/user.js');
+// const { isAuth } = require('./Controller/auth.js');
+// const path = require('path');
+// const bodyParser = require('body-parser');
+
+// dotenv.config();  // Load environment variables
+
+// const app = express();
+// const PORT = process.env.PORT || 8080;
+
+// // Middlewares
+// app.use(express.json());
+// app.use(cors());
+// app.use(bodyParser.json());
+
+// // Database connection
+// connectDataBase();
+
+// // Static file serving (e.g., for file uploads)
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// // Routes
+// app.use("/user", userRouter);
+// app.use("/notes", isAuth, notesRouter);  // Protect the notes routes with the isAuth middleware
+
+// // Start the server
+// app.listen(PORT, () => console.log(`Server running on localhost:${PORT}`));
+
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -54,7 +87,11 @@ const PORT = process.env.PORT || 8080;
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',  // Allow your frontend to access your backend (adjust to your frontend URL)
+  methods: 'GET,POST,PUT,DELETE',  // Allow these methods
+  allowedHeaders: ['Content-Type', 'x-auth-token']  // Allow these headers
+}));
 app.use(bodyParser.json());
 
 // Database connection
