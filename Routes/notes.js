@@ -64,24 +64,7 @@
 // })
 
 
-// router.post("/create", async (req, res) => {
-//   const postedDate = new Date().toJSON().slice(0, 10);
 
-//   try {
-    
-//     const notes = new Notes({
-//       ...req.body,
-//       date: postedDate,
-//       user: req.user
-      
-//     });
-//     await notes.save();
-//     notes.populate("user","name email avatar")
-//     res.status(201).json({message:"Data upload successfully",notes})
-//   } catch (error) {
-//     res.status(400).send(error);
-//   }
-// });
 
 // router.put("/edit/:id", async (req, res) => {
 //   try {
@@ -168,23 +151,42 @@ router.get("/getsingle/:id", async (req, res) => {
 });
 
 // Create a new note (requires authentication)
+// router.post("/create", async (req, res) => {
+//   const postedDate = new Date().toJSON().slice(0, 10);
+
+//   try {
+//     const newNote = new Notes({
+//       ...req.body,
+//       date: postedDate,
+//       user: req.user._id  // Attach the authenticated user's ID to the note
+//     });
+
+//     await newNote.save();
+//     await newNote.populate('user', 'name email _id');  // Populate user info (optional)
+
+//     res.status(201).json({ message: 'Note created successfully', newNote });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).json({ message: 'Error creating note', error });
+//   }
+// });
+
 router.post("/create", async (req, res) => {
   const postedDate = new Date().toJSON().slice(0, 10);
 
   try {
-    const newNote = new Notes({
+    
+    const notes = new Notes({
       ...req.body,
       date: postedDate,
-      user: req.user._id  // Attach the authenticated user's ID to the note
+      user: req.user
+      
     });
-
-    await newNote.save();
-    await newNote.populate('user', 'name email _id');  // Populate user info (optional)
-
-    res.status(201).json({ message: 'Note created successfully', newNote });
+    await notes.save();
+    notes.populate("user","name email avatar")
+    res.status(201).json({message:"Data upload successfully",notes})
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: 'Error creating note', error });
+    res.status(400).send(error);
   }
 });
 
