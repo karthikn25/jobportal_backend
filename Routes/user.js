@@ -94,7 +94,7 @@ router.post('/register', async (req, res) => {
       };
 
       // Respond to client after email is sent
-      res.status(200).json({ msg: 'OTP sent to email' ,otp});
+      res.status(200).json({ msg: 'OTP sent to email'});
 
   } catch (err) {
       console.error(err);
