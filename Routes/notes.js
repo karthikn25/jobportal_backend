@@ -155,7 +155,7 @@ router.get("/getall/:id", isAuth, async (req, res) => {
 });
 
 // Get single note by ID
-router.get("/getsingle/:id", async (req, res) => {
+router.get("/getsingle/:id",isAuth, async (req, res) => {
   try {
     const notes = await Notes.findOne({ _id: req.params.id }).populate("user", "email name avatar");
     if (!notes) {
