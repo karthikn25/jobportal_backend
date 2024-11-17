@@ -302,7 +302,11 @@ router.put("/edit/:id", uploads.single("avatar"), async (req, res) => {
             });
         }
 
-        user.username = req.body.username || user.username;
+        user.name = req.body.name || user.name;
+        user.position = req.body.position || user.position;
+        user.experiance = req.body.experiance || user.experiance;
+        user.location = req.body.location || user.location;
+
         if (avatarUrl) {
             user.avatar = avatarUrl; // Update the avatar URL
         }
