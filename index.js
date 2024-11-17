@@ -88,7 +88,7 @@ const PORT = process.env.PORT || 8080;
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',  // Allow your frontend to access your backend (adjust to your frontend URL)
+  origin: '*',  // Allow your frontend to access your backend (adjust to your frontend URL)
   methods: 'GET,POST,PUT,DELETE',  // Allow these methods
   allowedHeaders: ['Content-Type', 'x-auth-token']  // Allow these headers
 }));

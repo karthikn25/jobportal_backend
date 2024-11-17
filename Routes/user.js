@@ -178,7 +178,7 @@ router.post("/forget", async (req, res) => {
             secret,
             { expiresIn: "5m" }
         );
-        const link = `http://localhost:3000/reset/${user._id}/${token}`;
+        const link = `https://jobwaveapp.netlify.app/reset/${user._id}/${token}`;
         const details = {
             from: process.env.EMAIL,
             to: req.body.email,
